@@ -1,0 +1,110 @@
+
+p {
+  color: rgb(58, 53, 53);
+  /*border: 1px solid black;*/
+}
+
+
+html {
+    font-family: "Roboto", sans-serif;
+    font-size: 12px;
+    font-optical-sizing: auto;
+    font-weight: <weight>;
+    font-style: normal;
+}
+
+
+
+h1 {
+  font-size: 60px;
+  text-align: center;
+}
+
+p,
+li {
+  font-size: 16px;
+  line-height: 2;
+  letter-spacing: 1px;
+  color: rgb(58, 53, 53);
+  width: 800px;
+}
+
+html {
+  background-color: #0960b1;
+}
+
+body {
+  width: 800px;
+  margin: 0 auto;
+  background-color: #f7950b;
+  padding: 0 30px 30px 30px;
+  border: 3px solid black;
+}
+
+h1 {
+  margin: 0;
+  padding: 20px 0;
+  color: #00539f;
+  text-shadow: 3px 3px 1px rgb(255, 255, 255);
+}
+
+img {
+  display: block;
+  margin: 0 auto;
+  max-width: 30%;
+}
+
+
+/*forms*/
+
+
+form {
+  display: inline-block;
+  width: 100%;  
+  margin: 0 auto;
+  border: 1px solid #0960b1;
+  border-radius: 1em;
+  text-align: center;
+}
+
+
+label {
+  /* Uniform size & alignment */
+  display: inline-block;
+  min-width: 90px;
+  text-align: right;
+}
+
+input,
+textarea {
+  /* To make sure that all text fields have the same font settings
+     By default, text areas have a monospace font */
+  font: 1em sans-serif;
+  /* Uniform text field size */
+  width: 300px;
+  box-sizing: border-box;
+  /* Match form field borders */
+  border: 1px solid #00539f;
+}
+
+input:focus,
+textarea:focus {
+  /* Set the outline width and style */
+  outline-style: solid;
+  /* To give a little highlight on active elements */
+  outline-color: #000;
+}
+
+textarea {
+  /* Align multiline text fields with their labels */
+  vertical-align: top;
+  /* Provide space to type some text */
+  height: 5em;
+}
+
+.button {
+  /* Align buttons with the text fields */
+  padding-left: 128px; /* same size as the label elements */
+  margin-left: 0.5em;
+  
+}
