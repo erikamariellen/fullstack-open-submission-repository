@@ -1,19 +1,16 @@
-import { useState } from 'react'
-  const Course = ({course}) => {
-    const Header = ({course}) => <h1>{course.name}</h1>
-    const Content = ({course}) => {
-      return(
-        <div>
-          {course.parts.map(part => <p key={part.id}> {part.name} {part.exercises} </p>)}
-        </div>
-      )}
-      const total = course.parts.reduce((a, s) => a + s.exercises, 0) //a is the accumulator, s is the current value
-    
+const Course = ({courses}) => {
     return(
       <div>
-        <Header course={course} />
-        <Content course={course} />
-        <p> total of {total} exercises </p>
-        </div>
-    )
+        <h1>Web development curriculum</h1>
+        {courses.map(course => <div key={course.id}>
+          <h2>{course.name}</h2>
+          <div>
+            {course.parts.map(part => <p key={part.id}> {part.name} {part.exercises} </p>)}
+          </div>
+          <h3> total of {course.parts.reduce((a, s) => a + s.exercises, 0)} exercises </h3>
+        </div>)}
+      </div>
+    ) 
   }
+
+export default Course
