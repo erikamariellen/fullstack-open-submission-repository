@@ -1,45 +1,66 @@
-import { useState } from 'react'
-
-const App = () => {
-  const Course = ({course}) => {
-    const Header = ({course}) => <h1>{course.name}</h1>
-    const Content = ({course}) => {
-      return(
-        <div>
-          {course.parts.map(part => <p key={part.id}> {part.name} {part.exercises} </p>)}
-        </div>
-      )}
-      const total = course.parts.reduce((a, s) => a + s.exercises, 0) //a is the accumulator, s is the current value
-    
+const Course = ({courses}) => {
     return(
       <div>
-        <Header course={course} />
-        <Content course={course} />
-        <p> total of {total} exercises </p>
-        </div>
-    )
-  }
-  const course = {
-    name: 'Half Stack application development',
-    parts: [
-      {
-        name: 'Fundamentals of React',
-        exercises: 10,
-        id : 1
-      },
-      {
-        name: 'Using props to pass data',
-        exercises: 7,
-        id : 2
-      },
-      {
-        name: 'State of a component',
-        exercises: 14,
-        id : 3
-      },
-    ],
+        <h1>Web development curriculum</h1>
+        {courses.map(course => <div key={course.id}>
+          <h2>{course.name}</h2>
+          <div>
+            {course.parts.map(part => <p key={part.id}> {part.name} {part.exercises} </p>)}
+          </div>
+          <h3> total of {course.parts.reduce((a, s) => a + s.exercises, 0)} exercises </h3>
+        </div>)}
+      </div>
+    ) 
   }
 
-  return <Course course={course}  />
+
+const App = () => {
+  const courses = [
+    {
+      name: 'Half Stack application development',
+      id: 1,
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercises: 10,
+          id: 1
+        },
+        {
+          name: 'Using props to pass data',
+          exercises: 7,
+          id: 2
+        },
+        {
+          name: 'State of a component',
+          exercises: 14,
+          id: 3
+        },
+        {
+          name: 'Redux',
+          exercises: 11,
+          id: 4
+        }
+      ]
+    }, 
+    {
+      name: 'Node.js',
+      id: 2,
+      parts: [
+        {
+          name: 'Routing',
+          exercises: 3,
+          id: 1
+        },
+        {
+          name: 'Middlewares',
+          exercises: 7,
+          id: 2
+        }
+      ]
+    }
+  ]
+
+
+  return <Course courses={courses}  />
 }
 export default App
