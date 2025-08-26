@@ -21,20 +21,23 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
-      name: <form onSubmit={addPerson}>
+      <h2>Phonebook </h2>
+      
+      <form onSubmit={addPerson}>
+        name:
         <input 
           value={newName} 
           onChange={handleNameChange}
-        />
+        /> 
+        <div></div>
         <button type="submit">add</button>
       </form>
       <h2>Numbers</h2>
-        <ul>
+        <>
           {persons.map((person) => 
             <div>{person.name}</div>  
           )}
-        </ul>
+        </>
     </div>
   )
 }
