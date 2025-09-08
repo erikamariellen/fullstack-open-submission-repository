@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import personService from './services/persons'
+
 
 const Filter = ({filterName, handleFilterChange}) => (
       <div> 
@@ -63,11 +65,11 @@ const App = () => {
     persons.find(person => person.name === newName)
        ? alert(`${newName} is already added to phonebook`)
        : 
-        axios
-        .post('http://localhost:3001/persons', personObject)
+        personService
+        .create(personObject)
         .then(response => {
           console.log(response)
-          setPersons(persons.concat(personObject))
+          setPersons(persons.concat(response.data))
      })
     setNewName('')
     setNewNumber('')
@@ -75,11 +77,9 @@ const App = () => {
 
   // Busca os dados do servidor apenas UMA vez
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
