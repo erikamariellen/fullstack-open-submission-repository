@@ -9,13 +9,19 @@ const Filter = ({filterName, handleFilterChange}) => (
       </div>
 )
 
-const Persons = ({personsToShow}) => (
-  <div>
-    {personsToShow.map((person) => (
-      <div key={person.id}> {person.name} {person.number} </div>
-    ))}
-  </div>
-)
+const Persons = ({ personsToShow, deletePerson}) => {
+  return (
+    <div>
+      {personsToShow.map((person) => (
+        <div key={person.id}>
+          {person.name} {person.number}
+          <button onClick={() => deletePerson({id:person.id, name:person.name})}>delete</button>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 
 const PersonForm = ({addPerson, newName, handleNameChange, newNumber, handleNumberChange}) => (
         <div>
@@ -37,9 +43,11 @@ const PersonForm = ({addPerson, newName, handleNameChange, newNumber, handleNumb
         </div>
 )
 
+
+
+
 const App = () => {
   const [persons, setPersons] = useState([])
-
   const [filterName, setFilterName] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
@@ -56,6 +64,17 @@ const App = () => {
     console.log(event.target.value)
     setNewNumber(event.target.value)
   } 
+
+
+  // Busca os dados do servidor apenas UMA vez
+  useEffect(() => {
+    personService
+      .getAll()
+      .then(response => {
+        setPersons(response.data)
+      })
+  }, [])
+
 
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filterName.toLowerCase()))
 
@@ -75,14 +94,15 @@ const App = () => {
     setNewNumber('')
   }
 
-  // Busca os dados do servidor apenas UMA vez
-  useEffect(() => {
-    personService
-      .getAll()
-      .then(response => {
-        setPersons(response.data)
-      })
-  }, [])
+    const deletePerson = ({id, name}) => {
+      if (window.confirm(`Delete ${name}?`)) {
+        axios
+          .delete(`http://localhost:3001/persons/${id}`)
+          .then(response => {
+            setPersons(persons.filter(person => person.id !== id))
+          })
+      }
+   }
 
   return (
     <div>
@@ -91,7 +111,7 @@ const App = () => {
       <h2>add a new </h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
       <h2>Numbers</h2>
-      <Persons personsToShow={personsToShow}/>
+      <Persons personsToShow={personsToShow} deletePerson = {deletePerson}/>
     </div>
   )
 }
