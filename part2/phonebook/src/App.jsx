@@ -82,7 +82,7 @@ const App = () => {
     event.preventDefault()
     const personObject = {name: newName, number: newNumber}
     persons.find(person => person.name === newName)
-       ? alert(`${newName} is already added to phonebook`)
+       ? updatePerson({id: persons.find(person => person.name === newName).id, name: newName})
        : 
         personService
         .create(personObject)
@@ -94,15 +94,26 @@ const App = () => {
     setNewNumber('')
   }
 
-    const deletePerson = ({id, name}) => {
-      if (window.confirm(`Delete ${name}?`)) {
-        axios
-          .delete(`http://localhost:3001/persons/${id}`)
-          .then(response => {
-            setPersons(persons.filter(person => person.id !== id))
-          })
-      }
-   }
+  const deletePerson = ({id, name}) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      axios
+        .delete(`http://localhost:3001/persons/${id}`)
+        .then(response => {
+          setPersons(persons.filter(person => person.id !== id))
+        })
+    }
+  }
+
+  const  updatePerson = ({id, name}) => {
+    if (window.confirm(`Update ${name}?`)) {
+      personService
+        .update({id:id, newObject:{name: name, number: newNumber}})
+        .then(response => {
+          setPersons(persons.map(person => person.id !== id ? person : response.data
+          ))
+        })
+    }
+  }
 
   return (
     <div>
