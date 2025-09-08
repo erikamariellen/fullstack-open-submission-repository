@@ -59,18 +59,18 @@ const App = () => {
 
   const addPerson = (event) => {
     event.preventDefault()
-    const personObject = {name: newName, number: newNumber, id: persons.length + 1}
-
-    axios
-    .post('http://localhost:3001/persons', personObject)
-    .then(response => {
-      persons.find(person => person.name === newName)
-        ? alert(`${newName} is already added to phonebook`)
-        : setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
-      console.log(response)
-    })
+    const personObject = {name: newName, number: newNumber}
+    persons.find(person => person.name === newName)
+       ? alert(`${newName} is already added to phonebook`)
+       : 
+        axios
+        .post('http://localhost:3001/persons', personObject)
+        .then(response => {
+          console.log(response)
+          setPersons(persons.concat(personObject))
+     })
+    setNewName('')
+    setNewNumber('')
   }
 
   // Busca os dados do servidor apenas UMA vez
