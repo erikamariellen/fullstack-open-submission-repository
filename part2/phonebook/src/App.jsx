@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import personService from './services/persons'
+import './index.css'
 
 
 const Filter = ({filterName, handleFilterChange}) => (
@@ -43,6 +44,15 @@ const PersonForm = ({addPerson, newName, handleNameChange, newNumber, handleNumb
         </div>
 )
 
+  const Notification = ({ message, type }) => {
+  if (message === null) return null
+
+  return (
+    <div className={type}>
+      {message}
+    </div>
+  )
+}
 
 
 
@@ -51,6 +61,8 @@ const App = () => {
   const [filterName, setFilterName] = useState('')
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [successMessage, setSuccessMessage] = useState(null)
 
   const handleFilterChange = (event) => {
     console.log(event.target.value)
@@ -89,6 +101,11 @@ const App = () => {
         .then(response => {
           console.log(response)
           setPersons(persons.concat(response.data))
+          
+          setSuccessMessage(`Added ${newName}`)
+          setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
      })
     setNewName('')
     setNewNumber('')
@@ -101,6 +118,14 @@ const App = () => {
         .then(response => {
           setPersons(persons.filter(person => person.id !== id))
         })
+        .catch(error => {
+            setErrorMessage(
+              `the person '${name}' was already deleted from server`
+            )
+            setTimeout(() => {
+            setErrorMessage(null)
+            }, 5000)
+              })
     }
   }
 
@@ -111,13 +136,21 @@ const App = () => {
         .then(response => {
           setPersons(persons.map(person => person.id !== id ? person : response.data
           ))
-        })
+          setSuccessMessage(`The number of '${name}' was updated!`)
+          setTimeout(() => {
+          setSuccessMessage(null)
+        }, 5000)
+
+        })    
     }
   }
+
 
   return (
     <div>
       <h2>Phonebook </h2>
+      <Notification message={errorMessage} type="error" />
+      <Notification message={successMessage} type="success" />
       <Filter filterName={filterName} handleFilterChange={handleFilterChange} />        
       <h2>add a new </h2>
       <PersonForm addPerson={addPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange}/>
